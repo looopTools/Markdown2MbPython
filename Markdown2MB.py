@@ -93,7 +93,7 @@ def replaceCode(text):
     else:
         return '\n'.join(lines)
 
-text = "***bold***\n   laskdlkdalk\n   john"
+text = "**lol**\n***bold***\n   laskdlkdalk\n   john"
 text = convertString(text)
 print(text)
 
