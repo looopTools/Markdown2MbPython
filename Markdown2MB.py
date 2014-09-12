@@ -1,7 +1,8 @@
+#!/usr/bin/python
 def convertString(text):
 #    replaceLinks(text)
 #    replaceCite(text)
-#    replaceCode(text)
+    text = replaceCode(text)
     text = replaceBold(text)
     text = replaceItalic(text)
 
@@ -74,10 +75,25 @@ def replaceCite(text):
 
 def replaceCode(text):
 
-    return text
+    index = 0
+    codeStarted = False
+    lines = text.splitlines()
 
+    for x in range(0, len(lines)):
+        if lines[x].startswith('   '):
+            if not codeStarted:
+                lines[x] = lines[x].replace(lines[x], '[code]\n' + lines[x])
+                codeStarted = True
+        elif not lines[x].startswith('   ') and codeStarted:
+            lines[x] = lines[x].replace(lines[x], '[/code]\n' + lines[x])
+            codeStarted = False
 
-text = "***bold***"
+    if codeStarted:
+        return '\n'.join(lines) + '\n[/code]'
+    else:
+        return '\n'.join(lines)
+
+text = "***bold***\n   laskdlkdalk\n   john"
 text = convertString(text)
 print(text)
 
