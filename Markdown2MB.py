@@ -1,7 +1,7 @@
 #!/usr/bin/python
 def convertString(text):
 #    replaceLinks(text)
-#    replaceCite(text)
+    text = replaceCite(text)
     text = replaceCode(text)
     text = replaceBold(text)
     text = replaceItalic(text)
@@ -75,7 +75,6 @@ def replaceCite(text):
 
 def replaceCode(text):
 
-    index = 0
     codeStarted = False
     lines = text.splitlines()
 
@@ -93,7 +92,15 @@ def replaceCode(text):
     else:
         return '\n'.join(lines)
 
-text = "**lol**\n***bold***\n   laskdlkdalk\n   john"
+def replaceCite(text):
+    lines = text.splitlines()
+    for x in range(0, len(lines)):
+        if lines[x].startswith('>'):
+            lines[x] = lines[x][:0] + '[citat]' + lines[x][1:] + '[/citat]\n'
+
+    return '\n'.join(lines)
+
+text = "**lol**\n***bold***\n   laskdlkdalk\n   john\n>lol"
 text = convertString(text)
 print(text)
 
