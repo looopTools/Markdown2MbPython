@@ -10,60 +10,37 @@ def convertString(text):
 
 def replaceBold(text):
 
-    index = 0
+    lines = text.splitlines()
     j = 0
 
-    while index < len(text) - 1:
-
-        if index < len(text) - 2:
-            if (text[index] == '*' and text[index + 1] == '*' and text[index + 2] == '*') or (text[index] == '_' and text[index + 1] == '_' and text[index + 2] == '_'):
-                regEx = ''
-                if(text[index] == '*'):
-                    regEx = '*'
-                if j == 0:
-                    text = text[:index] + '[b]' + text[index+2:]
-                    j = 1
-                else:
-                    text = text[:index+1] + '[/b]' + text[index+3:]
-                    j = 0
-        elif (text[index] == '*' and text[index + 1] == '*') or (text[index] == '_' and text[index + 1] == '_'):
-               regEx = ''
-               if text[index] == '*':
-                   regEx = '**'
-               else:
-                   regEx = '__'
-               if j == 0:
-                   text = text.replace(regEx, '[b]', 1)
-                   j = 1
-               else:
-                   text = text.replace(regEx, '[/b]', 1)
-                   j = 0
-        index = index + 1
-    return text
+    for x in range(0, len(lines)):
+        if '***' in lines[x] and j == 0:
+            lines[x] = lines[x].replace("***", "[b]*", 1)
+            j = 1
+        if '***' in lines[x] and j == 1:
+            lines[x] = lines[x].replace("***", "*[/b]", 1)
+            j = 0
+        if '**' in lines[x] and j == 0:
+            lines[x] = lines[x].replace("**", "[b]", 1)
+            j = 1
+        if '**' in lines[x] and j == 1:
+            lines[x] = lines[x].replace("**", "[/b]", 1)
+            j = 0
+    return '\n'.join(lines)
 
 def replaceItalic(text):
 
-    index = 0
+    lines = text.splitlines()
     j = 0
 
-    while index < len(text) - 1:
-        if ( text[index] == '*' and text[index + 1] != '*' ) or (text[index] == '_' and text[index + 1] != '_'):
-            regEx = ''
-            if text[index] == '*':
-                regEx = '*'
-            else:
-                regEx = '_'
-
-            if j == 0:
-                text = text.replace(regEx, '[i]', 1)
-                j = 1
-            else:
-                text = text.replace(regEx, '[/i]', 1)
-                j = 0
-        index = index + 1
-    if (text[index] == '*' or text[index] == '_') and j == 1:
-        text = text.replace(regEx, '[/i]', 1)
-    return text
+    for x in range(0, len(lines)):
+        if '*' in lines[x] and j == 0:
+            lines[x] = lines[x].replace('*', '[i]', 1)
+            j = 1
+        if '*' in lines[x] and j == 1:
+            lines[x] = lines[x].replace('*', '[/i]', 1)
+            j = 0
+    return '\n'.join(lines)
 
 def replaceLinks(text):
 
@@ -100,7 +77,7 @@ def replaceCite(text):
 
     return '\n'.join(lines)
 
-text = "**lol**\n***bold***\n   laskdlkdalk\n   john\n>lol"
+text = "**lol**\n***bold***\n   laskdlkdalk\n   john\n>lol \n*kklsd*"
 text = convertString(text)
 print(text)
 
