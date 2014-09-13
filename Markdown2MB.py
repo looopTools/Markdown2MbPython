@@ -1,6 +1,10 @@
 #!/usr/bin/python
+
+import re
+
 def convertString(text):
-#    replaceLinks(text)
+    text = replaceLinks(text)
+    text = replaceFootnotes(text)
     text = replaceCite(text)
     text = replaceCode(text)
     text = replaceBold(text)
@@ -44,11 +48,13 @@ def replaceItalic(text):
 
 def replaceLinks(text):
 
-    return text
+    lines = text.splitlines()
+    lines = text.splitlines()
 
-def replaceCite(text):
+    for x in range(0, len(lines)):
+       lines[x] = re.sub(r'\[([^]]*)\]\((.*?)\/?\)', r'[link=\2]\1[/link]', lines[x])
 
-    return text
+    return '\n'.join(lines)
 
 def replaceCode(text):
 
@@ -77,7 +83,22 @@ def replaceCite(text):
 
     return '\n'.join(lines)
 
-text = "**lol**\n***bold***\n   laskdlkdalk\n   john\n>lol \n*kklsd*"
+def replaceFootnotes(text):
+    lines = text.splitlines()
+
+    for x in range(0, len(lines)):
+        lines[x] = re.sub(r'\[([^]]*)\] \[(.*?)\/?\]', r'[^X]', lines[x])
+
+    footnoteNumber = 1
+    for x in range(0, len(lines)):
+        while '[^X]' in lines[x]:
+            lines[x] = lines[x].replace("[^X]", "[^{}]".format(footnoteNumber), 1)
+            footnoteNumber = footnoteNumber + 1
+    return '\n'.join(lines)
+
+text = "**lol**\n***bold***\n   laskdlkdalk\n   john\n>lol \n*kklsd* [This link](http://example.net/)\n"
+text = text + "I get 10 times more traffic from [Google] [1] than from [Yahoo] [2] or [MSN] [3]\n\n\n"
+text = text + " [1]: http://google.com/        Google \n  [2]: http://search.yahoo.com/  Yahoo Search \n  [3]: http://search.msn.com/    MSN Search"
 text = convertString(text)
 print(text)
 
