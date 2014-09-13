@@ -86,8 +86,12 @@ def replaceCite(text):
 def replaceFootnotes(text):
     lines = text.splitlines()
 
+    footnoteNumber = 1
     for x in range(0, len(lines)):
         lines[x] = re.sub(r'\[([^]]*)\] \[(.*?)\/?\]', r'[^X]', lines[x])
+        if re.match('\[[0-9]*\]', lines[x]):
+            lines[x] = lines[x].replace("[{}]".format(footnoteNumber), "[^{}]".format(footnoteNumber), 1)
+            footnoteNumber = footnoteNumber + 1
 
     footnoteNumber = 1
     for x in range(0, len(lines)):
@@ -98,7 +102,7 @@ def replaceFootnotes(text):
 
 text = "**lol**\n***bold***\n   laskdlkdalk\n   john\n>lol \n*kklsd* [This link](http://example.net/)\n"
 text = text + "I get 10 times more traffic from [Google] [1] than from [Yahoo] [2] or [MSN] [3]\n\n\n"
-text = text + " [1]: http://google.com/        Google \n  [2]: http://search.yahoo.com/  Yahoo Search \n  [3]: http://search.msn.com/    MSN Search"
+text = text + "\n[1]: http://google.com/        Google \n[2]: http://search.yahoo.com/  Yahoo Search \n[3]: http://search.msn.com/    MSN Search"
 text = convertString(text)
 print(text)
 
