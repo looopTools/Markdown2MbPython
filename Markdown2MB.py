@@ -99,12 +99,3 @@ def replaceFootnotes(text):
             lines[x] = lines[x].replace("[^X]", "[^{}]".format(footnoteNumber), 1)
             footnoteNumber = footnoteNumber + 1
     return '\n'.join(lines)
-
-text = "**lol**\n***bold***\n   laskdlkdalk\n   john\n>lol \n*kklsd* [This link](http://example.net/)\n"
-text = text + "I get 10 times more traffic from [Google] [1] than from [Yahoo] [2] or [MSN] [3]\n\n\n"
-text = text + "\n[1]: http://google.com/        Google \n[2]: http://search.yahoo.com/  Yahoo Search \n[3]: http://search.msn.com/    MSN Search"
-text = convertString(text)
-print(text)
-
-
-#print('**bold**'.replace('**', '[b]', 1))
