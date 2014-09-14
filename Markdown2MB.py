@@ -23,6 +23,7 @@
 #OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import sys
 import re
 
 def convertString(text):
@@ -122,3 +123,21 @@ def replaceFootnotes(text):
             lines[x] = lines[x].replace("[^X]", "[^{}]".format(footnoteNumber), 1)
             footnoteNumber = footnoteNumber + 1
     return '\n'.join(lines)
+
+
+
+
+file = open(sys.argv[1], 'r')
+text = ""
+
+for line in file:
+    text = text + line
+
+output = convertString(text)
+
+of = open('output', 'w')
+
+of.write(output)
+
+file.close()
+of.close()
