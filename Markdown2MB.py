@@ -125,15 +125,14 @@ def replaceFootnotes(text):
             footnoteNumber = footnoteNumber + 1
     return '\n'.join(lines)
 
+# Method based on:
+# http://stackoverflow.com/questions/23394608/python-regex-fails-to-identify-markdown-links
 def replaceImageLink(text):
     lines = text.splitlines()
     lines = text.splitlines()
 
-
     name_regex = "[^]]+"
-    # http:// or https:// followed by anything but a closing paren
     url_regex = "http[s]?://[^)]+"
-#    url_regex = "[^)]+"
     markup_regex = '!\[({0})]\(\s*({1})\s*\)'.format(name_regex, url_regex)
     for x in range(0, len(lines)):
         for match in re.findall(markup_regex, lines[x]):
@@ -144,18 +143,18 @@ def replaceImageLink(text):
 
 
 
+#For test purpos only
+#file = open(sys.argv[1], 'r')
+#text = ""
 
-file = open(sys.argv[1], 'r')
-text = ""
+#for line in file:
+#    text = text + line
 
-for line in file:
-    text = text + line
+#output = convertString(text)
 
-output = convertString(text)
+#of = open('output', 'w')
 
-of = open('output', 'w')
+#of.write(output)
 
-of.write(output)
-
-file.close()
-of.close()
+#file.close()
+#of.close()
