@@ -27,6 +27,7 @@ import sys
 import re
 
 def convertString(text):
+    text = replaceImageLink(text)
     text = replaceLinks(text)
     text = replaceFootnotes(text)
     text = replaceCite(text)
@@ -123,6 +124,23 @@ def replaceFootnotes(text):
             lines[x] = lines[x].replace("[^X]", "[^{}]".format(footnoteNumber), 1)
             footnoteNumber = footnoteNumber + 1
     return '\n'.join(lines)
+
+def replaceImageLink(text):
+    lines = text.splitlines()
+    lines = text.splitlines()
+
+
+    name_regex = "[^]]+"
+    # http:// or https:// followed by anything but a closing paren
+    url_regex = "http[s]?://[^)]+"
+#    url_regex = "[^)]+"
+    markup_regex = '!\[({0})]\(\s*({1})\s*\)'.format(name_regex, url_regex)
+    for x in range(0, len(lines)):
+        for match in re.findall(markup_regex, lines[x]):
+            lines[x] = re.sub(r'\[([^]]*)\]\((.*?)\/?\)', r'[link=' + match[1] + r']\1[/link]', lines[x])
+
+    return '\n'.join(lines)
+
 
 
 
